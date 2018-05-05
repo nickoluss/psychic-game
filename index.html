@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>To Start Guessing Game Hit Your First Letter</h1>
+<div id="game"></div>
+<script>
+
+// letters that computer can pick from
+var alphabetLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+//  variables
+var wins = 0;
+var losses = 0;
+var guessesLeft = 9;
+// guessesSoFar is an array of user's guesses 
+var guessesSoFar = [];
+// userGuess is what the user picks 
+var userGuess = null;
+// Have computer pick a letter and store it in letterToBeGuessed
+var letterToBeGuessed = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
+console.log("Wins: " + wins + " Losses: " + losses + " GuessesLeft: " + guessesLeft + " Guesses so far: " + guessesSoFar + " Computer picked: " + letterToBeGuessed);
+
+// **start listening for events
+document.onkeydown = function(event) {
+    console.log(event)
+
+
+	// When user presses a key, it records it and saves to userGuess
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+	// Add the user's guess to guessesSoFar array
+	
+	if (guessesSoFar.indexOf(userGuess) < 0 && alphabetLetters.indexOf(userGuess) >= 0) {
+		guessesSoFar[guessesSoFar.length]=userGuess;
+		guessesLeft--;
+	}
+
+	// if letterToBeGuessed is same as userGuess then record it as a win
+	if (letterToBeGuessed == userGuess) {
+		wins++;
+		console.log("You won!");
+		guessesLeft = 9;
+		guessesSoFar = [];
+		letterToBeGuessed = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
+		console.log("Wins: " + wins + " Losses: " + losses + " GuessesLeft: " + guessesLeft + " Guesses so far: " + guessesSoFar + " Computer picked: " + letterToBeGuessed);
+	}
+
+	// if guessesLeft gets to 0 then record it as a loss
+	if (guessesLeft == 0) {
+		losses++;
+		console.log("You lost!");
+		guessesLeft = 9;
+		guessesSoFar = [];
+		letterToBeGuessed = alphabetLetters[Math.floor(Math.random() * alphabetLetters.length)];
+		console.log("Wins: " + wins + " Losses: " + losses + " GuessesLeft: " + guessesLeft + " Guesses so far: " + guessesSoFar + " Computer picked: " + letterToBeGuessed);
+	}
+
+	// Displaying progress to HTML
+	var html ="<p><h4>Guess what letter I\'m thinking of</h4></p>" + "<p><h4>Wins: " + wins + "</h4></p>" + "<p><h4>Losses: " + losses + "</h4></p>" + "<p><h4>Guesses Left: " + guessesLeft + "</h4></p>" + "<p><h4>Your guesses so far: " + guessesSoFar + "</h4></p>";
+	// place html into the game ID
+	document.querySelector("#game").innerHTML = html;
+
+}
+</script>
+</html>
